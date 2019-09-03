@@ -146,7 +146,7 @@ public class HttpCommand extends HystrixObservableCommand<Void> {
                     .flatMap(this::doNext);
 
         } else if (requestDTO.getHttpMethod().equals(HttpMethodEnum.POST.getName())) {
-            final String uri = buildRealURL();
+            final String uri = getUrl(buildRealURL());
             LogUtils.debug(LOGGER, "you post request,The resulting url is :{}", () -> uri);
             return WEB_CLIENT.post().uri(uri)
                     .headers(httpHeaders -> {

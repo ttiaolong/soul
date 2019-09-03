@@ -19,45 +19,50 @@
 package org.dromara.soul.test.http.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import org.dromara.soul.test.http.dto.UserDTO;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * TestController.
  *
  * @author xiaoyu
  */
-@RestController
+@Controller
 @RequestMapping("/test")
 public class HttpTestController {
 
     /**
      * Post user dto.
-     *
-     * @param userDTO the user dto
-     * @return the user dto
      */
-    @PostMapping("/payment")
-    public UserDTO post(final UserDTO userDTO) {
-        return userDTO;
+    @RequestMapping("/payment")
+    @ResponseBody
+    public String post(HttpServletRequest request) {
+//        Map<String, String[]> map = request.getParameterMap();
+        return JSON.toJSONString("23");
     }
+
+    @PostMapping("/test1")
+    @ResponseBody
+    public String test1() {
+//        Map<String, String[]> parameterMap = request.getParameterMap();
+        return "ces";
+    }
+
 
     /**
      * Find by user id string.
      *
      * @return the string
      */
-    @GetMapping("/findByUserId")
-    public String findByUserId() {
-        return "helloWorld!";
+    @PostMapping("/findByUserId")
+    @ResponseBody
+    public String findByUserId(@RequestBody String userDTO) {
+        return "test";
     }
 
     /**

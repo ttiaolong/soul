@@ -19,14 +19,17 @@
 package org.dromara.soul.web.request;
 
 import lombok.Data;
+import org.apache.commons.collections4.MapUtils;
 import org.dromara.soul.common.constant.Constants;
 import org.dromara.soul.common.enums.HttpMethodEnum;
 import org.dromara.soul.common.enums.RpcTypeEnum;
+import org.dromara.soul.common.utils.JsonUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.MultiValueMap;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * the soul request DTO .
@@ -99,6 +102,11 @@ public class RequestDTO implements Serializable {
     private LocalDateTime startDateTime;
 
     /**
+     * 请求参数
+     */
+    private Map<String, String> requestParams;
+
+    /**
      * ServerHttpRequest transform RequestDTO .
      *
      * @param request {@linkplain ServerHttpRequest}
@@ -112,7 +120,6 @@ public class RequestDTO implements Serializable {
         final String rpcType = request.getHeaders().getFirst(Constants.RPC_TYPE);
         final String sign = request.getHeaders().getFirst(Constants.SIGN);
         final String timestamp = request.getHeaders().getFirst(Constants.TIMESTAMP);
-        final String extInfo = request.getHeaders().getFirst(Constants.EXT_INFO);
         final String pathVariable = request.getHeaders().getFirst(Constants.PATH_VARIABLE);
         RequestDTO requestDTO = new RequestDTO();
         requestDTO.setModule(module);
@@ -122,9 +129,12 @@ public class RequestDTO implements Serializable {
         requestDTO.setRpcType(rpcType);
         requestDTO.setSign(sign);
         requestDTO.setTimestamp(timestamp);
-        requestDTO.setExtInfo(extInfo);
         requestDTO.setPathVariable(pathVariable);
         requestDTO.setStartDateTime(LocalDateTime.now());
+        Map<String, String> stringStringMap = request.getQueryParams().toSingleValueMap();
+        if (MapUtils.isNotEmpty(stringStringMap)) {
+            requestDTO.setExtInfo(JsonUtils.toJson(stringStringMap));
+        }
         return requestDTO;
     }
 
