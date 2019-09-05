@@ -86,7 +86,7 @@ public class DividePlugin extends AbstractSoulPlugin {
         if (StringUtils.isBlank(ruleHandle.getCommandKey())) {
             ruleHandle.setCommandKey(Objects.requireNonNull(requestDTO).getMethod());
         }
-
+        //轮询调用的服务是否可用
         final List<DivideUpstream> upstreamList =
                 upstreamCacheManager.findUpstreamListBySelectorId(selector.getId());
         if (CollectionUtils.isEmpty(upstreamList)) {
@@ -103,12 +103,11 @@ public class DividePlugin extends AbstractSoulPlugin {
             LogUtils.error(LOGGER, () -> "LoadBalance has error！");
             return chain.execute(exchange);
         }
-
+        // Hystrix做熔断降级处理，跟轮询查询服务是否可用 做双保险
         HttpCommand command = new HttpCommand(HystrixBuilder.build(ruleHandle), exchange, chain,
                 requestDTO, buildRealURL(divideUpstream), ruleHandle.getTimeout());
         return Mono.create(s -> {
-            Subscription sub = command.toObservable().subscribe(s::success,
-                    s::error, s::success);
+            Subscription sub = command.toObservable().subscribe(s::success, s::error, s::success);
             s.onCancel(sub::unsubscribe);
             if (command.isCircuitBreakerOpen()) {
                 LogUtils.error(LOGGER, () -> ruleHandle.getGroupKey() + "....http:circuitBreaker is Open.... !");
