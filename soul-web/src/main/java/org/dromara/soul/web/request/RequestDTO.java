@@ -114,14 +114,19 @@ public class RequestDTO implements Serializable {
      * @return RequestDTO request dto
      */
     public static RequestDTO transform(final ServerHttpRequest request) {
-        final String module = request.getHeaders().getFirst(Constants.MODULE);
-        final String method = request.getHeaders().getFirst(Constants.METHOD);
-        final String appKey = request.getHeaders().getFirst(Constants.APP_KEY);
-        final String httpMethod = request.getHeaders().getFirst(Constants.HTTP_METHOD);
-        final String rpcType = request.getHeaders().getFirst(Constants.RPC_TYPE);
-        final String sign = request.getHeaders().getFirst(Constants.SIGN);
-        final String timestamp = request.getHeaders().getFirst(Constants.TIMESTAMP);
-        final String pathVariable = request.getHeaders().getFirst(Constants.PATH_VARIABLE);
+        String module = request.getHeaders().getFirst(Constants.MODULE);
+        //先获取header里面的method，为空就获取path最后一段作为方法名
+        String method = request.getHeaders().getFirst(Constants.METHOD);
+        if (StringUtils.isEmpty(method)) {
+            String[] split = request.getPath().value().split("/");
+            if (split.length > 0) method = split[split.length -1];
+        }
+        String appKey = request.getHeaders().getFirst(Constants.APP_KEY);
+        String httpMethod = request.getHeaders().getFirst(Constants.HTTP_METHOD);
+        String rpcType = request.getHeaders().getFirst(Constants.RPC_TYPE);
+        String sign = request.getHeaders().getFirst(Constants.SIGN);
+        String timestamp = request.getHeaders().getFirst(Constants.TIMESTAMP);
+        String pathVariable = request.getHeaders().getFirst(Constants.PATH_VARIABLE);
         RequestDTO requestDTO = new RequestDTO();
         requestDTO.setModule(StringUtils.isEmpty(module) ? "module" : module);
         requestDTO.setMethod(StringUtils.isEmpty(method) ? "method" : method);
