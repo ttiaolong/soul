@@ -26,6 +26,7 @@ import org.dromara.soul.common.enums.RpcTypeEnum;
 import org.dromara.soul.common.utils.JsonUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -122,11 +123,11 @@ public class RequestDTO implements Serializable {
         final String timestamp = request.getHeaders().getFirst(Constants.TIMESTAMP);
         final String pathVariable = request.getHeaders().getFirst(Constants.PATH_VARIABLE);
         RequestDTO requestDTO = new RequestDTO();
-        requestDTO.setModule(module);
-        requestDTO.setMethod(method);
+        requestDTO.setModule(StringUtils.isEmpty(module) ? "module" : module);
+        requestDTO.setMethod(StringUtils.isEmpty(method) ? "method" : method);
         requestDTO.setAppKey(appKey);
-        requestDTO.setHttpMethod(httpMethod);
-        requestDTO.setRpcType(rpcType);
+        requestDTO.setHttpMethod(StringUtils.isEmpty(httpMethod) ? HttpMethodEnum.POST.getName() : httpMethod);
+        requestDTO.setRpcType(StringUtils.isEmpty(rpcType) ? RpcTypeEnum.HTTP.getName() : rpcType);
         requestDTO.setSign(sign);
         requestDTO.setTimestamp(timestamp);
         requestDTO.setPathVariable(pathVariable);
