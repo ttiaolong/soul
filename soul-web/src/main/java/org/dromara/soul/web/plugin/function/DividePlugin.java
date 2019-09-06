@@ -86,7 +86,7 @@ public class DividePlugin extends AbstractSoulPlugin {
         if (StringUtils.isBlank(ruleHandle.getCommandKey())) {
             ruleHandle.setCommandKey(Objects.requireNonNull(requestDTO).getMethod());
         }
-        //轮询调用的服务是否可用
+        //查询可用服务的地址
         final List<DivideUpstream> upstreamList =
                 upstreamCacheManager.findUpstreamListBySelectorId(selector.getId());
         if (CollectionUtils.isEmpty(upstreamList)) {
