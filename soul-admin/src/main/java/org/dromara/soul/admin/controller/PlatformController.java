@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author jiangxiaofeng(Nicholas)
  */
-@Slf4j
 @RestController
 @RequestMapping("/platform")
 public class PlatformController {
@@ -58,7 +57,6 @@ public class PlatformController {
     @GetMapping("/login")
     public SoulResult loginDashboardUser(final String userName, final String password) {
         try {
-            log.info("登录验证");
             DashboardUserVO dashboardUserVO = dashboardUserService.findByQuery(userName, password);
             return SoulResult.success("login dashboard user success", dashboardUserVO);
         } catch (Exception e) {

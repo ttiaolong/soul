@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author xiaoyu
  */
-@Slf4j
 @Controller
 public class IndexController {
 
@@ -42,8 +41,6 @@ public class IndexController {
      */
     @RequestMapping("/index")
     public String index(final Model model) {
-        String httpPath = SoulDomain.getInstance().getHttpPath();
-        log.info("页面地址：{}", httpPath);
         model.addAttribute("domain", SoulDomain.getInstance().getHttpPath());
         return "index";
     }
