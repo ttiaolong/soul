@@ -18,6 +18,7 @@
 
 package org.dromara.soul.admin.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.dromara.soul.admin.listener.SoulDomain;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author xiaoyu
  */
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -40,6 +42,8 @@ public class IndexController {
      */
     @RequestMapping("/index")
     public String index(final Model model) {
+        String httpPath = SoulDomain.getInstance().getHttpPath();
+        log.info("页面地址：{}", httpPath);
         model.addAttribute("domain", SoulDomain.getInstance().getHttpPath());
         return "index";
     }

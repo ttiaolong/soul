@@ -3,4 +3,4 @@ spring:
      active: local
 
 soul:
-  httpPath: 127.0.0.1:8887
+  httpPath: http://127.0.0.1:8887
