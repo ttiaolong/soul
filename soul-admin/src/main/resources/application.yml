@@ -2,3 +2,5 @@ spring:
    profiles:
      active: local
 
+soul:
+  httpPath: 127.0.0.1:8887

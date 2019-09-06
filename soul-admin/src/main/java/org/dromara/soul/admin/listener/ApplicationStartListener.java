@@ -19,6 +19,7 @@
 package org.dromara.soul.admin.listener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -35,17 +36,20 @@ import java.net.UnknownHostException;
 @Component
 public class ApplicationStartListener implements ApplicationListener<WebServerInitializedEvent> {
 
+    @Value("${soul.httpPath}")
+    private String soulHttpPath;
+
     @Override
     public void onApplicationEvent(final WebServerInitializedEvent event) {
         int port = event.getWebServer().getPort();
         final String host = getHost();
-        final String domain = System.getProperty("soul.httpPath");
-        if (StringUtils.isBlank(domain)) {
+//        final String domain = System.getProperty("soul.httpPath");
+        if (StringUtils.isBlank(soulHttpPath)) {
             SoulDomain.getInstance()
                     .setHttpPath("http://" + String.join(":", host, String.valueOf(port)));
         } else {
             SoulDomain.getInstance()
-                    .setHttpPath(domain);
+                    .setHttpPath(soulHttpPath);
         }
     }
 
