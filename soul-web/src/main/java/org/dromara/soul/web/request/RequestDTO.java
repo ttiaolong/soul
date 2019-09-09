@@ -130,6 +130,8 @@ public class RequestDTO implements Serializable {
         RequestDTO requestDTO = new RequestDTO();
         requestDTO.setModule(StringUtils.isEmpty(module) ? "module" : module);
         requestDTO.setMethod(StringUtils.isEmpty(method) ? "method" : method);
+        request.getHeaders().set("module", requestDTO.getModule());
+        request.getHeaders().set("method", requestDTO.getMethod());
         requestDTO.setAppKey(appKey);
         requestDTO.setHttpMethod(StringUtils.isEmpty(httpMethod) ? HttpMethodEnum.POST.getName() : httpMethod);
         requestDTO.setRpcType(StringUtils.isEmpty(rpcType) ? RpcTypeEnum.HTTP.getName() : rpcType);
