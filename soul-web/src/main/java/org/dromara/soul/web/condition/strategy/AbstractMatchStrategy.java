@@ -18,6 +18,7 @@
 
 package org.dromara.soul.web.condition.strategy;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dromara.soul.common.constant.Constants;
 import org.dromara.soul.common.dto.ConditionData;
 import org.dromara.soul.common.enums.ParamTypeEnum;
@@ -58,10 +59,15 @@ abstract class AbstractMatchStrategy {
             final HttpHeaders headers = exchange.getRequest().getHeaders();
             final List<String> list = headers.get(condition.getParamName());
             if (CollectionUtils.isEmpty(list)) {
-                return realData;
+                if (StringUtils.equals(condition.getParamName(), Constants.MODULE) && StringUtils.isBlank(realData)) {
+                    realData = (String) exchange.getAttributes().get(Constants.MODULE);
+                } else if (StringUtils.equals(condition.getParamName(), Constants.METHOD) && StringUtils.isBlank(realData)) {
+                    realData = (String) exchange.getAttributes().get(Constants.METHOD);
+                }
+            } else {
+                realData = Objects.requireNonNull(headers.get(condition.getParamName())).stream().findFirst().orElse("");
             }
-            realData = Objects.requireNonNull(headers.get(condition.getParamName())).stream().findFirst().orElse("");
-        }  else if (condition.getParamType().equals(ParamTypeEnum.POST.getName())) {
+        } else if (condition.getParamType().equals(ParamTypeEnum.POST.getName())) {
             final RequestDTO requestDTO = exchange.getAttribute(Constants.REQUESTDTO);
             realData = (String) ReflectUtils.getFieldValue(requestDTO, condition.getParamName());
         }

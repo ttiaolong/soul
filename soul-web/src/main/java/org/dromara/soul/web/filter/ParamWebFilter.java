@@ -50,6 +50,8 @@ public class ParamWebFilter extends AbstractWebFilter {
         if (StringUtils.isBlank(upgrade) || !RpcTypeEnum.WEB_SOCKET.getName().equals(upgrade)) {
             final RequestDTO requestDTO = RequestDTO.transform(request);
             if (verify(requestDTO, exchange)) {
+                exchange.getAttributes().put(Constants.MODULE, requestDTO.getModule());
+                exchange.getAttributes().put(Constants.METHOD, requestDTO.getMethod());
                 exchange.getAttributes().put(Constants.REQUESTDTO, requestDTO);
             } else {
                 return Mono.just(false);
