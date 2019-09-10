@@ -86,7 +86,7 @@ public abstract class AbstractSoulPlugin implements SoulPlugin {
             if (CollectionUtils.isEmpty(selectors)) {
                 return chain.execute(exchange);
             }
-            LogUtils.info(LOGGER, named() + " selectors has:{} ", () -> JsonUtils.toJson(selectors));
+//            LogUtils.info(LOGGER, named() + " selectors has:{} ", () -> JsonUtils.toJson(selectors));
             final SelectorData selectorData = selectors.stream()
                     .filter(selector -> selector.getEnabled() && filterSelector(selector, exchange))
                     .findFirst().orElse(null);

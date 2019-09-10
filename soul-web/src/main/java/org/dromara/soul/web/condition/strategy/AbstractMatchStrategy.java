@@ -72,7 +72,6 @@ abstract class AbstractMatchStrategy {
             } else {
                 try {
                     realData = URLDecoder.decode(Objects.requireNonNull(headers.get(condition.getParamName())).stream().findFirst().orElse(""), "UTF-8");
-                    log.info("测试------：{}", realData);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
