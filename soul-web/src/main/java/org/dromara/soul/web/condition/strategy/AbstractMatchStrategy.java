@@ -18,6 +18,7 @@
 
 package org.dromara.soul.web.condition.strategy;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.soul.common.constant.Constants;
 import org.dromara.soul.common.dto.ConditionData;
@@ -40,6 +41,7 @@ import java.util.Objects;
  *
  * @author xiaoyu(Myth)
  */
+@Slf4j
 abstract class AbstractMatchStrategy {
 
     /**
@@ -70,6 +72,7 @@ abstract class AbstractMatchStrategy {
             } else {
                 try {
                     realData = URLDecoder.decode(Objects.requireNonNull(headers.get(condition.getParamName())).stream().findFirst().orElse(""), "UTF-8");
+                    log.info("测试------：{}", realData);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
