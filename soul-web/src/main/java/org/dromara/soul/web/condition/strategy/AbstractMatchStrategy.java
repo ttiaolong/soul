@@ -80,10 +80,4 @@ abstract class AbstractMatchStrategy {
         }
         return realData;
     }
-
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        String str = "重庆市-重庆市";
-
-        System.out.println(URLEncoder.encode(str, "UTF-8"));
-    }
 }
