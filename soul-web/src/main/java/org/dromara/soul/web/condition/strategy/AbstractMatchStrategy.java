@@ -29,6 +29,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,7 +68,11 @@ abstract class AbstractMatchStrategy {
                     realData = (String) exchange.getAttributes().get(Constants.METHOD);
                 }
             } else {
-                realData = Objects.requireNonNull(headers.get(condition.getParamName())).stream().findFirst().orElse("");
+                try {
+                    realData = URLDecoder.decode(Objects.requireNonNull(headers.get(condition.getParamName())).stream().findFirst().orElse(""), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (condition.getParamType().equals(ParamTypeEnum.POST.getName())) {
             final RequestDTO requestDTO = exchange.getAttribute(Constants.REQUESTDTO);
@@ -74,4 +81,9 @@ abstract class AbstractMatchStrategy {
         return realData;
     }
 
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        String str = "重庆市-重庆市";
+
+        System.out.println(URLEncoder.encode(str, "UTF-8"));
+    }
 }
