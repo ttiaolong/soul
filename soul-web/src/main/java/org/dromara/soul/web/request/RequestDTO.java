@@ -118,8 +118,7 @@ public class RequestDTO implements Serializable {
         //先获取header里面的method，为空就获取path最后一段作为方法名
         String method = request.getHeaders().getFirst(Constants.METHOD);
         if (StringUtils.isEmpty(method)) {
-            String[] split = request.getPath().value().split("/");
-            if (split.length > 0) method = split[split.length -1];
+            method = "gateway.do";
         }
         String appKey = request.getHeaders().getFirst(Constants.APP_KEY);
         String httpMethod = request.getHeaders().getFirst(Constants.HTTP_METHOD);
