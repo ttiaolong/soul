@@ -198,7 +198,7 @@ public interface Constants {
     /**
      * The constant TIME_OUT.
      */
-    int TIME_OUT = 3000;
+    int TIME_OUT = 30000;
 
     /**
      * The constant COLONS.
