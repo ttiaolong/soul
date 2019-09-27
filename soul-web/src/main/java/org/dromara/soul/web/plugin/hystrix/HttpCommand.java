@@ -103,6 +103,7 @@ public class HttpCommand extends HystrixObservableCommand<Void> {
     }
 
     private Mono<Void> doHttpInvoke() {
+        LogUtils.debug(LOGGER, "you HttpCommand params", this::toString);
         if (requestDTO.getHttpMethod().equals(HttpMethodEnum.GET.getName())) {
             final String uri = getUrl(buildRealURL());
             LogUtils.debug(LOGGER, "you get request,The resulting url is :{}", () -> uri);
@@ -230,5 +231,14 @@ public class HttpCommand extends HystrixObservableCommand<Void> {
         final SoulResult error = SoulResult.error(Constants.HTTP_ERROR_RESULT);
         return exchange.getResponse().writeWith(Mono.just(exchange.getResponse()
                 .bufferFactory().wrap(Objects.requireNonNull(JsonUtils.toJson(error)).getBytes())));
+    }
+
+    @Override
+    public String toString() {
+        return "HttpCommand{" +
+                ", requestDTO=" + requestDTO +
+                ", url='" + url + '\'' +
+                ", timeout=" + timeout +
+                '}';
     }
 }

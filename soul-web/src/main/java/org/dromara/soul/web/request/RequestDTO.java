@@ -151,4 +151,22 @@ public class RequestDTO implements Serializable {
         return requestDTO;
     }
 
+    @Override
+    public String toString() {
+        return "RequestDTO{" +
+                "module='" + module + '\'' +
+                ", method='" + method + '\'' +
+                ", rpcType='" + rpcType + '\'' +
+                ", httpMethod='" + httpMethod + '\'' +
+                ", dubboParams='" + dubboParams + '\'' +
+                ", sign='" + sign + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", appKey='" + appKey + '\'' +
+                ", content='" + content + '\'' +
+                ", extInfo='" + extInfo + '\'' +
+                ", pathVariable='" + pathVariable + '\'' +
+                ", startDateTime=" + startDateTime +
+                ", requestParams=" + requestParams +
+                '}';
+    }
 }
