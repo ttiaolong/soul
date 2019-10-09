@@ -23,7 +23,7 @@ soul:
   sync:
       strategy: zookeeper
       zookeeper:
-        url: localhost:2181
+        url: zk.huwochuxing.com:2181
         sessionTimeout: 5000
         connectionTimeout: 2000
 
